@@ -10,8 +10,12 @@ app.get("/", (req, res)=>{
 
 app.get("/ask", (req, res)=>{
     res.render("askPage");
-})
+});
+
+app.post("/ask", (req, res)=>{
+    res.send("Pergunta recebida com sucesso!");
+});
 
 app.listen(8079, ()=>{
     console.log("Aplicação iniciadda com sucesso");
-})
+});
