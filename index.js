@@ -3,6 +3,7 @@ const app = express();
 const bodyparser = require("body-parser");
 const connection = require("./db/db");
 const question = require("./db/Question");
+const { where } = require("sequelize");
 
 const port = 8059;
 
@@ -37,13 +38,28 @@ app.get("/ask", (req, res)=>{
 });
 
 app.post("/ask", (req, res)=>{
-    let title = req.body.title;
-    let description = req.body.description;
+    const title = req.body.title;
+    const description = req.body.description;
     question.create({
         title: title,
         description: description
     }).then(()=>{
         res.redirect('/');
+    });
+});
+
+app.get("/question/:id", (req, res)=>{
+    const id = req.params.id;
+    question.findOne({
+        where:{id:id}
+    }).then(question=>{
+        if(question!=undefined){
+            res.render("question",{
+                question:question
+            });
+        } else {
+            res.redirect("/");
+        }
     });
 });
 

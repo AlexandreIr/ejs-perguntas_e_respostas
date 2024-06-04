@@ -1,0 +1,19 @@
+<%- include('./partials/header.ejs'); %>
+
+<body>
+    <%- include(`./partials/navbar.ejs`); %>
+        <div class="container">
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <h1><%= question.title %></h1>
+                    <p><%= question.description %></p>
+                    <textarea name="answerArea" id="answerArea" class="form-control" rows="10" placeholder="Responda a pergunta apresentada acima"></textarea>
+                    <br>
+                    <button class="btn btn-success">Responder</button>
+                </div>
+            </div>
+            
+        </div>
+    <%- include(`./partials/footer.ejs`); %>
+</body>
