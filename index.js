@@ -1,6 +1,17 @@
 const express = require("express");
 const app = express();
 const bodyparser = require("body-parser");
+const connection = require("./db/db");
+const port = 8059;
+
+connection
+.authenticate()
+.then(()=>{
+    console.log("Conexão feita");
+})
+.catch((err)=>{
+    console.log(err);
+})
 
 app.set('view engine','ejs');
 app.use(express.static('public'));
@@ -17,9 +28,10 @@ app.get("/ask", (req, res)=>{
 });
 
 app.post("/ask", (req, res)=>{
-    res.send("Pergunta recebida com sucesso!");
+    let title = req.body.title;
+    res.send(`Sua pergunta ${title} foi recebida com sucesso!`);
 });
 
-app.listen(8079, ()=>{
-    console.log("Aplicação iniciadda com sucesso");
+app.listen(port, ()=>{
+    console.log(`Aplicação rodando na porta ${port}`);
 });
