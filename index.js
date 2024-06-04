@@ -22,7 +22,9 @@ app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
 
 app.get("/", (req, res)=>{
-    question.findAll({raw:true}).then((questions)=>{
+    question.findAll({raw:true, order:[
+        ['id','DESC']
+    ]}).then((questions)=>{
         res.render("index", {
             questions:questions
         });
