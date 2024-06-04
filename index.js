@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const bodyparser = require("body-parser");
 const connection = require("./db/db");
-const questionsModel = require("./db/Question");
+const question = require("./db/Question");
+
 const port = 8059;
 
 connection
@@ -21,7 +22,12 @@ app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
 
 app.get("/", (req, res)=>{
-    res.render("index");
+    question.findAll({raw:true}).then((questions)=>{
+        res.render("index", {
+            questions:questions
+        });
+    });
+    
 });
 
 app.get("/ask", (req, res)=>{
@@ -30,7 +36,13 @@ app.get("/ask", (req, res)=>{
 
 app.post("/ask", (req, res)=>{
     let title = req.body.title;
-    res.send(`Sua pergunta ${title} foi recebida com sucesso!`);
+    let description = req.body.description;
+    question.create({
+        title: title,
+        description: description
+    }).then(()=>{
+        res.redirect('/');
+    });
 });
 
 app.listen(port, ()=>{
