@@ -9,3 +9,10 @@ body{
 textarea{
     resize: none;
 }
+
+#question{
+    color: white;
+    margin-right: 12vh;
+}
+
+

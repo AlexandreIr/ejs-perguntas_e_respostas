@@ -3,6 +3,7 @@ const app = express();
 const bodyparser = require("body-parser");
 const connection = require("./db/db");
 const question = require("./db/Question");
+const resp = require("./db/Answer");
 const { where } = require("sequelize");
 
 const port = 8059;
