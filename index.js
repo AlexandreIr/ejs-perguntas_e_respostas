@@ -5,6 +5,7 @@ const connection = require("./db/db");
 const question = require("./db/Question");
 const resp = require("./db/Answer");
 const { where } = require("sequelize");
+const answers = require("./db/Answer");
 
 const port = 8059;
 
@@ -55,14 +56,30 @@ app.get("/question/:id", (req, res)=>{
         where:{id:id}
     }).then(question=>{
         if(question!=undefined){
-            res.render("question",{
-                question:question
-            });
+            answers.findAll({
+                where:{questionID: id},
+                order:[["id", "DESC"]]
+            }).then(ans =>{
+                res.render("question",{
+                    question:question,
+                    answers:ans
+                });
+            })
         } else {
             res.redirect("/");
         }
     });
 });
+app.post("/question/:id", (req, res)=>{
+    const id = req.params.id;
+    const body = req.body.answerArea;
+    answers.create({
+        body:body,
+        questionID:id
+    }).then(()=>{
+        res.redirect(`/question/${id}`);
+    });
+})
 
 app.listen(port, ()=>{
     console.log(`Aplicação rodando na porta ${port}`);
